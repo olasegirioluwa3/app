@@ -1,4 +1,5 @@
-const express = require('express');
+// const express = require('express');
+import express from "express";
 require('dotenv').config();
 const { sequelize } = require('./models/index');
 const socketIO = require('socket.io');
