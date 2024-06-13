@@ -2,10 +2,10 @@
   "name": "zrl-api",
   "version": "1.0.0",
   "description": "Zion Reborn Limited, a software company dedicated to making life and business easier.",
-  "main": "index.js",
+  "main": "index.cjs",
   "scripts": {
-    "start": "node index.js",
-    "test": "nodemon index.js"
+    "start": "node index.cjs",
+    "test": "nodemon index.cjs"
   },
   "keywords": [
     "Zion",
