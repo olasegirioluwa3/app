@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "Zion Reborn Limited, a software company dedicated to making life and business easier.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "test": "nodemon index.js"
+    "start": "node index.js"
   },
   "keywords": [
     "Zion",
@@ -43,5 +43,8 @@
     "socket.io": "^4.7.5",
     "sqlite3": "^5.1.7",
     "stripe": "^14.23.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }
