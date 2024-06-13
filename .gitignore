@@ -1,0 +1,7 @@
+*.zip
+*.docx
+*.pdf
+*.env
+node_modules/
+*.py
+data

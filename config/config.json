@@ -1,0 +1,18 @@
+{
+  "development": {
+    "use_env_variable": "DATABASE_URL_DEV",
+    "host": "DATABASEHOST",
+    "username": "DATABASEUSER",
+    "password": "DATABASEPASSWORD",
+    "database": "DATABASENAME",
+    "dialect": "mysql"
+  },
+  "test": {
+    "dialect": "sqlite",
+    "storage": "./data/test-database.sqlite"
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL_PROD",
+    "dialect": "mysql"
+  }
+}
