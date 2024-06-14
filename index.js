@@ -9,14 +9,14 @@ import axios from 'axios';
 import cors from 'cors';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
-import userRoutes from '/routes/userRoutes';
-import whatsappRoutes from './routes/whatsappRoutes';
-import applicationRoutes from './routes/applicationRoutes';
-import paymentRoutes from './routes/paymentRoutes';
-import serviceRoutes from './routes/serviceRoutes';
-import serviceAccessRoutes from './routes/serviceAccessRoutes';
-import userAccessRoutes from './routes/userAccessRoutes';
-import { sequelize } from './models/index';
+import userRoutes from './routes/userRoutes.js';
+import whatsappRoutes from './routes/whatsappRoutes.js';
+import applicationRoutes from './routes/applicationRoutes.js';
+import paymentRoutes from './routes/paymentRoutes.js';
+import serviceRoutes from './routes/serviceRoutes.js';
+import serviceAccessRoutes from './routes/serviceAccessRoutes.js';
+import userAccessRoutes from './routes/userAccessRoutes.js';
+import { sequelize } from './models/index.js';
 
 // Load environment variables
 // const express = require('express');
