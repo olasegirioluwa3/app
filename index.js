@@ -11,7 +11,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import userRoutes from './routes/userRoutes.js';
 import whatsappRoutes from './routes/whatsappRoutes.js';
-import applicationRoutes from './routes/applicationRoutes.js';
+// import applicationRoutes from './routes/applicationRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
 import serviceRoutes from './routes/serviceRoutes.js';
 import serviceAccessRoutes from './routes/serviceAccessRoutes.js';

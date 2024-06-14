@@ -1,18 +1,19 @@
-const express = require('express');
-const { Application, User } = require('../models');
+import express from 'express';
+import { Application, User } from '../models/index.js';
+import initializeApplicationModel from '../models/whatsapp.js';
+import initializeUserModel from '../models/user.js';
+import { DataTypes } from 'sequelize';
 
 const router = express.Router();
-const initializeApplicationModel = require('../models/whatsapp');
-const initializeUserModel = require('../models/user');
 
 // Function to broadcast Socket.IO messages
 const broadcastSocketIoMessage = (io, header, body) => {
   io.emit(header, body);
 };
 
-module.exports = (app, io, sequelize) => {
-  const Application = initializeApplicationModel(sequelize, require('sequelize').DataTypes);
-  const User = initializeUserModel(sequelize, require('sequelize').DataTypes);
+const applicationRoutes = (app, io, sequelize) => {
+  const Application = initializeApplicationModel(sequelize, DataTypes);
+  const User = initializeUserModel(sequelize, DataTypes);
 
   // Create a new application
   router.post('/create', async (req, res) => {
@@ -43,7 +44,7 @@ module.exports = (app, io, sequelize) => {
 
       res.send({ application, status: "success", message: 'Payment status updated successfully!' });
     } catch (error) {
-      res.status(500).send({  status: "failed", message: 'Failed to update payment status', error });
+      res.status(500).send({ status: "failed", message: 'Failed to update payment status', error });
     }
   });
 
@@ -61,4 +62,4 @@ module.exports = (app, io, sequelize) => {
   app.use('/api/applications', router);
 };
 
-// module.exports = router;
+export default applicationRoutes;
