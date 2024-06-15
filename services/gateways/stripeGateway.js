@@ -1,5 +1,5 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const PaymentGateway = require('./paymentGateway');  // assuming you also have the abstract gateway in the same directory
+const PaymentGateway = require('./paymentGateway');  // assuming the abstract gateway is in the same directory
 
 class StripeGateway extends PaymentGateway {
     async initiatePayment(amount, currency, data, callbackUrl) {
@@ -8,8 +8,8 @@ class StripeGateway extends PaymentGateway {
                 amount: Math.round(amount * 100), // Stripe expects the amount in cents
                 currency: currency,
                 payment_method_types: ['card'],
-                description: data.description || 'One of your necessary payments',
-                metadata: {integration_check: 'accept_a_payment'},
+                description: data.description || 'Payment',
+                metadata: { integration_check: 'accept_a_payment' },
                 confirm: true,
                 return_url: callbackUrl
             });

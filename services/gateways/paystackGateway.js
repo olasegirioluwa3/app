@@ -1,6 +1,5 @@
-const axios = require('axios');
-const paystack = require('stripe')(process.env.PAYSTACK_SECRET_KEY);
-const PaymentGateway = require('./paymentGateway');  // Assuming the abstract gateway is in the same directory
+import axios from 'axios';
+import PaymentGateway from './paymentGateway.js'; // Assuming the abstract gateway is in the same directory
 
 class PaystackGateway extends PaymentGateway {
 
@@ -35,7 +34,7 @@ class PaystackGateway extends PaymentGateway {
             // logged error
             // throw new Error(`Failed to initialize Paystack payment: ${error}`);
 
-            return null
+            return null;
         }
     }
 
@@ -96,4 +95,4 @@ class PaystackGateway extends PaymentGateway {
     }
 }
 
-module.exports = PaystackGateway;
+export default PaystackGateway;

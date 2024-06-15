@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
 const authenticateToken = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];
@@ -14,6 +14,7 @@ const authenticateToken = (req, res, next) => {
       }
       return res.status(500).send({ status: "failed", message: 'Failed to verify token', error: error.message });
     }
+
     // Attach the user information to the request object for later use
     req.user = {
       id: decodedToken.userId,
@@ -24,4 +25,4 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-module.exports = authenticateToken;
+export default authenticateToken;

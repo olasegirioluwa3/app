@@ -1,21 +1,21 @@
-const crypto = require('crypto');
-const Sequelize = require('sequelize'); // Import Sequelize
-const { sequelize } = require('../models');
-const { sendEmail } = require("../utils/email");
+import crypto from 'crypto';
+import { Sequelize } from 'sequelize';
+import { sequelize } from '../models/index.js';
+import { sendEmail } from "../utils/email.js";
+import { generateRandomNumber } from "../utils/encrypt.js";
+import PaymentGateway from "../services/gateways/paymentGateway.js";
+import PaystackGateway from "../services/gateways/paystackGateway.js";
+import StripeGateway from "../services/gateways/stripeGateway.js";
+
 const domain = process.env.APP_WEBSITE_URL || "localhost:3000";
-const { generateRandomNumber } = require("../utils/encrypt");
+
 const generateToken = () => {
   return crypto.randomBytes(20).toString('hex');
 };
-const Payment = sequelize.models.payment;
-const User = sequelize.models.user;
-const ServiceAccess = sequelize.models.serviceaccess;
-const ServiceType = sequelize.models.service;
-const PaymentGateway = require("../services/gateways/paymentGateway");
-const PaystackGateway = require("../services/gateways/paystackGateway");
-const StripeGateway = require("../services/gateways/stripeGateway");
 
-async function create(req, res, data) {
+const { payment: Payment, user: User, serviceaccess: ServiceAccess, service: ServiceType } = sequelize.models;
+
+export async function create(req, res, data) {
   try {
     const user = await User.findByPk(req.user.id);
     if (!user) return res.status(400).send({ status: "failed", error: 'Unknown user' });
@@ -29,17 +29,17 @@ async function create(req, res, data) {
       if (!service) {
         return res.status(400).send({ status: "failed", error: 'Unknown service' });
       }
-      
+
       // initiate payment
       paymentData.userId = req.user.id;
       paymentData.email = user.email;
-      paymentData.full_name = user.firstName+' '+user.lastName
+      paymentData.full_name = `${user.firstName} ${user.lastName}`;
       paymentData.saId = serviceaccess.id;
-      
+
       // get cost info of the service
       paymentData.gateway = data.gateway || service.svPaymentGateway;
       paymentData.currency = data.currency || service.svPaymentCurrency;
-      
+
       // Calculate price and paymentNextDate
       let quantity = parseInt(data.quantity, 10) || 1;
       paymentData.quantity = quantity;
@@ -50,9 +50,9 @@ async function create(req, res, data) {
 
       let paymentGateway = PaymentGateway;
       let finalAmount;
-      
+
       if (paymentData.gateway === 'Paystack') {
-        paymentGateway = new PaystackGateway();         
+        paymentGateway = new PaystackGateway();
         const decimalFee = 1.95 / 100.0;
         const flatFee = (parseInt(price, 10) * (1.5 / 100)) + 100;
         const capFee = 2000.0;
@@ -63,17 +63,19 @@ async function create(req, res, data) {
       } else {
         return res.status(400).send({ status: "failed", error: 'Invalid payment gateway' });
       }
+
       paymentData.amount = finalAmount;
       const callbackUrl = process.env.PAYMENT_CALLBACK_URL || callbackURL;
       const paymentDetails = await paymentGateway.initiatePayment(paymentData.amount, paymentData.currency, paymentData, callbackUrl);
       if (!paymentDetails) return res.status(400).send({ status: "failed", error: 'Try another quantity' });
+
       // Create a payment
       paymentData.amountPaid = '0';
       paymentData.paymentReference = paymentDetails.data.reference;
       paymentData.paymentNextDate = paymentNextDate;
       console.log(paymentData);
       const payment = await Payment.create(paymentData);
-      if (!payment){
+      if (!payment) {
         return res.status(400).send({ status: "failed", error: 'Create payment failed' });
       } else {
         return res.status(201).send({ payment, paymentDetails, status: "success", message: 'Payment recorded successfully!' });
@@ -87,12 +89,12 @@ async function create(req, res, data) {
   }
 }
 
-async function getAll(req, res, data) {
+export async function getAll(req, res, data) {
   try {
     const user = await User.findByPk(data.userId);
     const whatsapp = await Whatsapp.findAll({ userId: user.id });
-    
-    if (!whatsapp){
+
+    if (!whatsapp) {
       return res.status(401).json({ message: 'Whatsapp registration failed, Invalid Token, try again' });
     }
 
@@ -107,10 +109,10 @@ async function getAll(req, res, data) {
   }
 }
 
-async function getOne(req, res, data) {
+export async function getOne(req, res, data) {
   try {
-    const payment = await await Payment.findOne({ where: { paymentReference: data.paymentReference } });
-    if (!payment){
+    const payment = await Payment.findOne({ where: { paymentReference: data.paymentReference } });
+    if (!payment) {
       return res.status(401).json({ message: 'No payment found, Try again' });
     }
     return res.status(200).json({ status: "success", payment });
@@ -120,23 +122,23 @@ async function getOne(req, res, data) {
   }
 }
 
-async function verify(req, res, data) {
+export async function verify(req, res, data) {
   try {
     const payment = await Payment.findOne({ where: { paymentReference: data.paymentReference } });
-    if (!payment){
+    if (!payment) {
       return res.status(401).json({ message: 'No payment found, Try again' });
     }
-    
+
     let serviceaccess = await ServiceAccess.findByPk(payment.saId);
-    if (!serviceaccess){
+    if (!serviceaccess) {
       return res.status(401).json({ message: 'No service access found, Try again' });
     }
-    
+
     const gateway = payment.gateway;
     const paymentReference = payment.paymentReference;
 
     let paymentGateway;
-    if (gateway === 'Paystack') { 
+    if (gateway === 'Paystack') {
       paymentGateway = new PaystackGateway();
     } else if (gateway === 'Stripe') {
       paymentGateway = new StripeGateway();
@@ -153,14 +155,14 @@ async function verify(req, res, data) {
       payment.amountPaid = verificationDetails.data.amount / 100.0;
       serviceaccess.status = "Active";
       serviceaccess.amountPaid = verificationDetails.data.amount / 100.0;
-      
+
       // check if payment is not already used
       if (payment.paymentFullfilled !== "Yes") {
         console.log("not yet ready");
         payment.paymentFullfilled = "Yes";
         serviceaccess.paymentNextDate = payment.paymentNextDate;
         // update serviceAccess
-        
+
         // :adding the total months to the sa expire.
         await serviceaccess.save();
       }
@@ -174,10 +176,3 @@ async function verify(req, res, data) {
     res.status(500).json({ message: "get one payment failed on C" });
   }
 }
-
-module.exports = {
-  create,
-  getAll,
-  getOne,
-  verify
-};

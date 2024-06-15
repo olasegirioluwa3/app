@@ -1,20 +1,17 @@
-const express = require('express');
+import express from 'express';
+import authenticateToken from '../middlewares/auth.user.middleware.js';
+import validatePaymentData from '../middlewares/validator/paymentValidator.js';
+import paymentController from '../controllers/paymentController.js';
+
 const router = express.Router();
-const authenticateToken = require('../middlewares/auth.user.middleware');
 
-module.exports = (app, io, sequelize) => {
-  const paymentController = require('../controllers/paymentController');
-  const serviceAccessController = require('../controllers/serviceAccessController');
-  const validatePaymentData = require("../middlewares/validator/paymentValidator");
-
-
+export default function setupPaymentRoutes(app, io, sequelize) {
   router.post('/create', authenticateToken, async (req, res) => {
     try {
       const { data, errors } = await validatePaymentData(req.body);
       if (errors.length > 0) {
         return res.status(400).json({ errors });
       }
-      console.log(data);
       await paymentController.create(req, res, data);
     } catch (error) {
       console.log(error);
@@ -22,26 +19,22 @@ module.exports = (app, io, sequelize) => {
     }
   });
 
-  // Update payment status by payment reference
   router.post('/:paymentReference', async (req, res) => {
     try {
       const { paymentReference } = req.params;
-      let data = {};
-      data.paymentReference = paymentReference;
-      const payment = await paymentController.getOne(req, res, data);
+      let data = { paymentReference };
+      await paymentController.getOne(req, res, data);
     } catch (error) {
       console.log(error);
       res.status(500).send({ status: "failed", message: 'Failed to update payment status', error });
     }
   });
 
-  // Update payment status by payment reference
   router.post('/payment-status/:paymentReference', async (req, res) => {
     try {
       const { paymentReference } = req.params;
-      let data = {};
-      data.paymentReference = paymentReference;
-      const payment = await paymentController.verify(req, res, data);
+      let data = { paymentReference };
+      await paymentController.verify(req, res, data);
     } catch (error) {
       console.log(error);
       res.status(500).send({ status: "failed", message: 'Failed to update payment status', error });
@@ -49,4 +42,4 @@ module.exports = (app, io, sequelize) => {
   });
 
   app.use('/api/payment', router);
-};
+}
