@@ -8,7 +8,7 @@ import OpenAI from 'openai';
 import axios from 'axios';
 import cors from 'cors';
 import { createServer } from 'http';
-import { Server } from 'socket.io';
+// import socketIO from 'socket.io';
 import userRoutes from './routes/userRoutes.js';
 import whatsappRoutes from './routes/whatsappRoutes.js';
 // import applicationRoutes from './routes/applicationRoutes.js';
@@ -20,19 +20,14 @@ import userAccessRoutes from './routes/userAccessRoutes.js';
 import db from './models/index.js';
 const sequelize = db.sequelize;
 
-// Load environment variables
-// const express = require('express');
-// import express from "express";
-// require('dotenv').config();
-// const { sequelize } = require('./models/index');
-// const socketIO = require('socket.io');
-// const http = require('http');
+// Load environmen
+// import socketIO from 'socket.io';
+import http from 'http';
 // // Import error logging middleware
 
 // // Use error logging middleware
-// const app = express();
+const app = express();
 // const server = http.createServer(app);
-// const cors = require('cors');
 // const io = socketIO(server, {
 //   cors: {
 //     origin: ["https://zionrebornuniversity.com.ng","http://localhost:3001"], 
@@ -41,29 +36,20 @@ const sequelize = db.sequelize;
 //   },
 // });
 
-// app.use(cors());
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
-// app.use(express.static("/public"));
-// app.use('/uploads', express.static("public/uploads"));
-// // app.use('/profileimgs', express.static("public/profileimgs"));
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("/public"));
+app.use('/uploads', express.static("public/uploads"));
+// app.use('/profileimgs', express.static("public/profileimgs"));
 
-// // Import and use the userRoutes function passing app and io
-// const userRoutes = require('./routes/userRoutes');
-// const whatsappRoutes = require('./routes/whatsappRoutes');
-// const applicationRoutes = require('./routes/applicationRoutes');
-// const paymentRoutes = require('./routes/paymentRoutes');
-// const serviceRoutes = require('./routes/serviceRoutes');
-// const serviceAccessRoutes = require('./routes/serviceAccessRoutes');
-// const userAccessRoutes = require('./routes/userAccessRoutes');
-
-// userRoutes(app, io, sequelize);
-// whatsappRoutes(app, io, sequelize);
+userRoutes(app, null, sequelize);
+whatsappRoutes(app, null, sequelize);
 // applicationRoutes(app, io, sequelize);
-// paymentRoutes(app, io, sequelize);
-// serviceRoutes(app, io, sequelize);
-// serviceAccessRoutes(app, io, sequelize);
-// userAccessRoutes(app, io, sequelize);
+paymentRoutes(app, null, sequelize);
+serviceRoutes(app, null, sequelize);
+serviceAccessRoutes(app, null, sequelize);
+userAccessRoutes(app, null, sequelize);
 
 // io.on('connection', (socket) => {
 //   console.log('A user connected');
@@ -72,7 +58,11 @@ const sequelize = db.sequelize;
 //   });
 // });
 
-// const PORT = process.env.PORT || 8000;
-// server.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`);
-// });
+app.get('/', () => {
+  console.log('/')
+});
+       
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
