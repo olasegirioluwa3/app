@@ -100,4 +100,4 @@ async function validatePaymentData( input ) {
   return { data, errors };
 }
 
-module.exports = validatePaymentData;
+export default validatePaymentData;

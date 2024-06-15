@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import { Sequelize } from 'sequelize';
-import { sequelize } from '../models/index.js';
+import db from '../models/index.js';
+const sequelize = db.sequelize;
 import sendEmail from '../utils/email.js';
 import PaymentGateway from '../services/gateways/paymentGateway.js';
 import PaystackGateway from '../services/gateways/paystackGateway.js';

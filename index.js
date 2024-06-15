@@ -16,7 +16,9 @@ import paymentRoutes from './routes/paymentRoutes.js';
 import serviceRoutes from './routes/serviceRoutes.js';
 import serviceAccessRoutes from './routes/serviceAccessRoutes.js';
 import userAccessRoutes from './routes/userAccessRoutes.js';
-import { sequelize } from './models/index.js';
+// import { sequelize } from './models/index.js';
+import db from './models/index.js';
+const sequelize = db.sequelize;
 
 // Load environment variables
 // const express = require('express');
