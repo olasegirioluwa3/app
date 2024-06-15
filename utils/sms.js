@@ -27,4 +27,7 @@ async function sendSMS(recipient, message, sender = null) {
     }
 }
 
-export default sendSMS;
+const sms = {
+  sendSMS
+}
+export default sms;

@@ -12,9 +12,10 @@ const Contact = sequelize.models.contact;
 const Message = sequelize.models.message;
 
 const validateUserData = "../middlewares/validator/index.js";
-import { sendEmail } from "../utils/email.js";
-import { sendSMS } from "../utils/sms.js";
-import { generateResponse } from "../utils/conversation.js";
+import sendEmail from "../utils/email.js";
+import sendSMS from "../utils/sms.js";
+import conversationai from "../utils/conversation.js";
+const { generateResponse } = conversationai;
 const domain = process.env.APP_WEBSITE_URL || "localhost:3000";
 import encrypt from "../utils/encrypt.js";
 const { generateRandomNumber, encryptNumber, decryptNumber } = encrypt;

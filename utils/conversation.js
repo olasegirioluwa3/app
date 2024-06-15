@@ -1,4 +1,4 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
 import OpenAI from 'openai';
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -24,4 +24,8 @@ const generateResponse = async ( data ) => {
   }
 }
 
-module.exports = { generateResponse };
+const conversationai = {
+  generateResponse
+}
+
+export default conversationai;

@@ -58,8 +58,8 @@ userAccessRoutes(app, null, sequelize);
 //   });
 // });
 
-app.get('/', () => {
-  console.log('/')
+app.get('/', (req, res) => {
+  return res.status(201).json({ message: 'Welcome to ZionAI API' });
 });
        
 const PORT = process.env.PORT || 8000;
