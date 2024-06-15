@@ -55,7 +55,7 @@ function exportDatabase() {
 }
 
 // Export the database before syncing
-exportDatabase();
+// exportDatabase();
 
 const modelFiles = fs.readdirSync(__dirname)
   .filter((file) => {
@@ -73,14 +73,14 @@ for (const file of modelFiles) {
 }
 
 // Sync the database with force: true to drop and recreate tables
-sequelize
-  .sync({ force: true })
-  .then(() => {
-    console.log("All tables have been dropped and re-synced.");
-  })
-  .catch((err) => {
-    console.error("Error dropping and re-syncing tables:", err);
-  });
+// sequelize
+//   .sync({ force: true })
+//   .then(() => {
+//     console.log("All tables have been dropped and re-synced.");
+//   })
+//   .catch((err) => {
+//     console.error("Error dropping and re-syncing tables:", err);
+//   });
 
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
