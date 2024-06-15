@@ -1,11 +1,12 @@
-const bcrypt = require("bcryptjs");
-const Sequelize = require('sequelize'); // Import Sequelize
-const { sequelize } = require('../models');
+import bcrypt from "bcryptjs";
+import { Sequelize } from 'sequelize';
+import db from '../models/index.js';
+const sequelize = db.sequelize;
 const User = sequelize.models.user;
 const UserAccess = sequelize.models.useraccess;
 const ServiceAccess = sequelize.models.serviceaccess;
-const { sendEmail } = require("../utils/email");
-const { generateToken } = require("../utils/encrypt");
+import sendEmail from "../utils/email";
+import generateToken from "../utils/encrypt";
 const domain = process.env.APP_WEBSITE_URL || "localhost:3000";
 
 async function getAll(req, res, data) {

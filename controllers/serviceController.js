@@ -1,11 +1,8 @@
-
-const User = sequelize.models.user;
-const ServiceType = sequelize.models.service;
-
 import { Sequelize } from 'sequelize';
 import db from '../models/index.js';
 const sequelize = db.sequelize;
 const User = sequelize.models.user;
+const ServiceType = sequelize.models.service;
 
 async function getAll(req, res, data) {
   try {

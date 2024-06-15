@@ -1,13 +1,14 @@
-const Sequelize = require('sequelize'); // Import Sequelize
-const { sequelize } = require('../models');
+import { Sequelize } from 'sequelize';
+import db from '../models/index.js';
+const sequelize = db.sequelize;
 const User = sequelize.models.user;
 const ServiceType = sequelize.models.service;
 const ServiceAccess = sequelize.models.serviceaccess;
 const Payment = sequelize.models.payment
-const { sendEmail } = require("../utils/email");
-const PaymentGateway = require("../services/gateways/paymentGateway");
-const PaystackGateway = require("../services/gateways/paystackGateway");
-const StripeGateway = require("../services/gateways/stripeGateway");
+import sendEmail from "../utils/email.js";
+import PaymentGateway from "../services/gateways/paymentGateway.js";
+import PaystackGateway from "../services/gateways/paystackGateway.js";
+import StripeGateway from "../services/gateways/stripeGateway.js";
 
 async function getAll(req, res, data) {
   try {
