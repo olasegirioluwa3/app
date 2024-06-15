@@ -1,6 +1,6 @@
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs').promises;
+import multer from 'multer';
+import path from 'path';
+import { promises as fs } from 'fs';
 
 const uploadPath = path.join('public/', 'uploads');
 let fileData = {};
@@ -42,9 +42,11 @@ const deleteExistingCoverPicture = async (user) => {
   }
 };
 
-module.exports = {
+const uploads = {
   uploadProfilePicture,
   uploadCoverPicture,
   deleteExistingProfilePicture,
   deleteExistingCoverPicture,
 };
+
+export default uploads;

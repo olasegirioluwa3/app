@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const authenticateToken = require('../middlewares/auth.user.middleware');
-const phoneNumber = require('phone-number');
+import authenticateToken from '../middlewares/auth.user.middleware.js';
+import phoneNumber from 'phone-number';
 import validateServiceAccessData from "../middlewares/validator/serviceAccessValidator.js";
 import serviceAccessController from '../controllers/serviceAccessController.js';
 

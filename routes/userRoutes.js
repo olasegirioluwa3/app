@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const authenticateToken = require('../middlewares/auth.user.middleware');
-const { uploadProfilePicture, deleteExistingProfilePicture, uploadCoverPicture, deleteExistingCoverPicture } = require('../middlewares/upload.user.middleware');
+import authenticateToken from '../middlewares/auth.user.middleware.js';
+import uploads from '../middlewares/upload.user.middleware.js';
+const { uploadProfilePicture, deleteExistingProfilePicture, uploadCoverPicture, deleteExistingCoverPicture } = uploads;
 import phoneNumber from 'phone-number';
 import userController from '../controllers/userController.js';
 import validateUserData from "../middlewares/validator/userValidator.js";
