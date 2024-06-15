@@ -70,4 +70,4 @@ async function validateUserAccessData(input = {}) {
   return { data, errors };
 }
 
-module.exports = validateUserAccessData;
+export default validateUserAccessData;

@@ -1,5 +1,4 @@
-require('dotenv').config();
-
+import dotenv from 'dotenv';
 import crypto from 'crypto';
 
 function encryptNumber(number, key) {
@@ -22,5 +21,11 @@ function generateRandomNumber() {
   return randomNumber.toString().padStart(6, '0'); // Pad the number with zeros if needed to ensure it has 6 digits
 }
 
-export default generateRandomNumber;
-module.exports = { generateRandomNumber, encryptNumber, decryptNumber, generateToken };
+const encrypt = {
+  generateRandomNumber,
+  encryptNumber,
+  decryptNumber,
+  generateToken
+};
+
+export default encrypt;

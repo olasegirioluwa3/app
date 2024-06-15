@@ -5,27 +5,9 @@ const sequelize = db.sequelize;
 const User = sequelize.models.user;
 const UserAccess = sequelize.models.useraccess;
 const ServiceAccess = sequelize.models.serviceaccess;
-import sendEmail from "../utils/email";
-import generateToken from "../utils/encrypt";
+import sendEmail from "../utils/email.js";
+import generateToken from "../utils/encrypt.js";
 const domain = process.env.APP_WEBSITE_URL || "localhost:3000";
-
-async function getAll(req, res, data) {
-  try {
-    const useraccess = await UserAccess.findAll({where:{userId: req.user.id}});
-    if (!useraccess){
-      return res.status(401).json({ message: 'No User Access was found, try again' });
-    }
-    return res.status(200).json({ status: "success", useraccess });
-  } catch (error) {
-    console.error(error.message);
-    if (error instanceof Sequelize.UniqueConstraintError) {
-      res.status(400).json({ message: "Email already exists" });
-    } else {
-      console.log(error);
-      res.status(500).json({ message: "Registration failed on C" });
-    }
-  }
-}
 
 async function invite(req, res, data) {
   try {
@@ -145,8 +127,10 @@ async function approve(req, res, data) {
 }
 
 
-module.exports = {
+const userAccessController = {
     getAll,
     invite,
     approve
 };
+
+export default userAccessController;
