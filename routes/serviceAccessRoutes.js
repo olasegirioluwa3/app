@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const authenticateToken = require('../middlewares/auth.user.middleware');
 const phoneNumber = require('phone-number');
-import validateServiceAccessData from "./middlewares/validator/serviceAccessValidator.js";
-import serviceAccessController from './controllers/serviceAccessController.js';
+import validateServiceAccessData from "../middlewares/validator/serviceAccessValidator.js";
+import serviceAccessController from '../controllers/serviceAccessController.js';
 
 export default function serviceAccessRoutes (app, io, sequelize) {
   

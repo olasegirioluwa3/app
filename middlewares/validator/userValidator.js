@@ -129,4 +129,4 @@ async function validateUserData( input ) {
   return { data, errors };
 }
 
-module.exports = validateUserData;
+export default validateUserData;

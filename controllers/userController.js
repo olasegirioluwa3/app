@@ -375,7 +375,7 @@ async function verifyResetToken(token) {
   }
 }
 
-module.exports = {
+const userController = {
   registerUser,
   loginUser,
   getProfile,
@@ -390,4 +390,5 @@ module.exports = {
   resetPassword,
   verifyResetToken,
 };
-// }
+
+export default userController;

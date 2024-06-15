@@ -71,9 +71,11 @@ async function createService(req, res, data) {
   }
 }
 
-module.exports = {
+const serviceController = {
     getAll,
     getAllInGroupCode,
     getOne,
     createService
 };
+
+export default serviceController;

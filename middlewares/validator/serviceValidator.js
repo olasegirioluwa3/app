@@ -92,4 +92,4 @@ async function validateServiceData(input = {}) {
   return { data, errors };
 }
 
-module.exports = validateServiceData;
+export default validateServiceData;

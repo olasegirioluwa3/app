@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const authenticateToken = require('../middlewares/auth.user.middleware');
-const phoneNumber = require('phone-number');
-const validateServiceData = require('../middlewares/validator/serviceValidator');
+import phoneNumber from 'phone-number';
+import validateServiceData from '../middlewares/validator/serviceValidator.js';
+import serviceController from '../controllers/serviceController.js';
 
-module.exports = (app, io, sequelize) => {
-  const serviceController = require('../controllers/serviceController');
-
+export default function serviceRoutes (app, io, sequelize) {
+  
   router.post('/', async (req, res) => { 
     try {
       let input = {};

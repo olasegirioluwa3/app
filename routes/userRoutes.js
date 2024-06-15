@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const authenticateToken = require('../middlewares/auth.user.middleware');
 const { uploadProfilePicture, deleteExistingProfilePicture, uploadCoverPicture, deleteExistingCoverPicture } = require('../middlewares/upload.user.middleware');
-const phoneNumber = require('phone-number');
+import phoneNumber from 'phone-number';
+import userController from '../controllers/userController.js';
+import validateUserData from "../middlewares/validator/userValidator.js";
 
-module.exports = (app, io, sequelize) => {
-  const userController = require('../controllers/userController');
-  const validateUserData = require("../middlewares/validator/userValidator");
-
+export default function userRoutes (app, io, sequelize) {
+  
   // Registration (handled by userController)
   router.post('/register', async (req, res) => {
     try {
