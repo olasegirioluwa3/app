@@ -3,6 +3,11 @@ import axios from 'axios';
 import PaymentGateway from './paymentGateway.js'; // Assuming the abstract gateway is in the same directory
 
 class StripeGateway extends PaymentGateway {
+  constructor() {
+        super();
+        this.paystackUrl = 'https://api.paystack.co';
+        this.secretKey = process.env.PAYSTACK_SECRET_KEY;
+    }
     async initiatePayment(amount, currency, data, callbackUrl) {
         try {
             const paymentIntent = await stripe.paymentIntents.create({
@@ -48,4 +53,4 @@ class StripeGateway extends PaymentGateway {
     }
 }
 
-module.exports = StripeGateway;
+export default StripeGateway;
