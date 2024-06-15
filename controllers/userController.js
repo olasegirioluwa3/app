@@ -6,7 +6,8 @@ import db from '../models/index.js';
 const sequelize = db.sequelize;
 const User = sequelize.models.user;
 import validateUserData from "../middlewares/validator/userValidator.js";
-import sendEmail from "../utils/email.js";
+import email from "../utils/email.js";
+const { sendEmail } = email;
 const domain = process.env.APP_WEBSITE_URL || "localhost:3000";
 
 const generateToken = () => {
