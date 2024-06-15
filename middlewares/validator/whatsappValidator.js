@@ -111,4 +111,4 @@ async function validateWhatsappData( input ) {
   return { data, errors };
 }
 
-module.exports = validateWhatsappData;
+export default validateWhatsappData;

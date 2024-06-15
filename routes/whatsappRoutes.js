@@ -2,12 +2,12 @@ import express from 'express';
 const router = express.Router();
 import authenticateToken from '../middlewares/auth.user.middleware.js';
 import sendSMS from '../utils/sms.js';
+import userController from '../controllers/userController.js';
+import whatsappController from '../controllers/whatsappController.js';
+import validateWhatsappData from "../middlewares/validator/whatsappValidator.js";
 
 export default function whatsappRoutes (app, io, sequelize) {
-  const userController = require('../controllers/userController');
-  const whatsappController = require('../controllers/whatsappController');
-  const validateWhatsappData = require("../middlewares/validator/whatsappValidator");
-
+  
   // Registration (handled by userController)
   router.post('/create-init', authenticateToken, async (req, res) => {
     try {

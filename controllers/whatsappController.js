@@ -1,9 +1,9 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
-
-const Sequelize = require('sequelize'); // Import Sequelize
-const { sequelize } = require('../models');
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+import { Sequelize } from 'sequelize';
+import db from '../models/index.js';
+const sequelize = db.sequelize;
 const User = sequelize.models.user;
 const ServiceAccess = sequelize.models.serviceaccess;
 const UserAccess = sequelize.models.useraccess;
@@ -11,12 +11,13 @@ const Whatsapp = sequelize.models.whatsapp;
 const Contact = sequelize.models.contact;
 const Message = sequelize.models.message;
 
-const validateUserData = "../middlewares/validator/index";
-const { sendEmail } = require("../utils/email");
-const { sendSMS } = require("../utils/sms");
-const { generateResponse } = require("../utils/conversation");
+const validateUserData = "../middlewares/validator/index.js";
+import { sendEmail } from "../utils/email.js";
+import { sendSMS } from "../utils/sms.js";
+import { generateResponse } from "../utils/conversation.js";
 const domain = process.env.APP_WEBSITE_URL || "localhost:3000";
-const { generateRandomNumber, encryptNumber, decryptNumber } = require("../utils/encrypt");
+import encrypt from "../utils/encrypt.js";
+const { generateRandomNumber, encryptNumber, decryptNumber } = encrypt;
 
 const generateToken = () => {
   return crypto.randomBytes(20).toString('hex');
@@ -279,10 +280,12 @@ async function incomingMessage(req, res, data) {
   }
 }
 
-module.exports = {
+const whatsappController = {
     registerWhatsapp,
     sendWhatsappVerifyToken,
     getAllWhatsapp,
     verifyWhatsapp,
     incomingMessage
 };
+
+export default whatsappController;
