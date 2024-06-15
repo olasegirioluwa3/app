@@ -1,5 +1,6 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const PaymentGateway = require('./paymentGateway');  // assuming the abstract gateway is in the same directory
+import axios from 'axios';
+import PaymentGateway from './paymentGateway.js'; // Assuming the abstract gateway is in the same directory
 
 class StripeGateway extends PaymentGateway {
     async initiatePayment(amount, currency, data, callbackUrl) {

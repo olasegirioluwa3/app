@@ -2,19 +2,18 @@ import crypto from 'crypto';
 import { Sequelize } from 'sequelize';
 import { sequelize } from '../models/index.js';
 import { sendEmail } from '../utils/email.js';
-import { generateRandomNumber } from '../utils/encrypt.js';
+// import { generateRandomNumber } from '../utils/encrypt.js';
 import PaymentGateway from '../services/gateways/paymentGateway.js';
 import PaystackGateway from '../services/gateways/paystackGateway.js';
 // import StripeGateway from '../services/gateways/stripeGateway.js';
 const { StripeGateway } = require('../services/gateways/stripeGateway.js');
 
+function generateToken() {
+  return crypto.randomBytes(20).toString("hex");
+}
 
 const domain = process.env.APP_WEBSITE_URL || 'localhost:3000';
-
-const generateToken = () => {
-    return crypto.randomBytes(20).toString('hex');
-};
-
+export { generateToken };
 const { payment: Payment, user: User, serviceaccess: ServiceAccess, service: ServiceType } = sequelize.models;
 
 export async function create(req, res, data) {
