@@ -1,4 +1,4 @@
-const { Model, DataTypes } = require('sequelize');
+import { Model, DataTypes } from 'sequelize';
 
 class ServiceAccess extends Model {
   static associate(models) {
@@ -67,4 +67,4 @@ const initializeServiceAccessModel = (sequelize) => {
   return ServiceAccess;
 };
 
-module.exports = initializeServiceAccessModel;
+export default initializeServiceAccessModel;

@@ -1,4 +1,4 @@
-const { Model, DataTypes } = require('sequelize');
+import { Model, DataTypes } from 'sequelize';
 
 class Whatsapp extends Model {
   static associate(models) {
@@ -21,7 +21,7 @@ class Whatsapp extends Model {
   }
 }
 
-const initializeWhatsappModel = (sequelize, DataTypes) => {
+const initializeWhatsappModel = (sequelize) => {
   Whatsapp.init({
     id: {
       allowNull: false,
@@ -98,4 +98,4 @@ const initializeWhatsappModel = (sequelize, DataTypes) => {
   return Whatsapp;
 };
 
-module.exports = initializeWhatsappModel;
+export default initializeWhatsappModel;

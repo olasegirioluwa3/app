@@ -1,4 +1,4 @@
-const { Model, DataTypes } = require('sequelize');
+import { Model, DataTypes } from 'sequelize';
 
 class ServiceType extends Model {
   // Define associations for Application.
@@ -18,7 +18,7 @@ class ServiceType extends Model {
   }
 }
 
-const initializeServiceTypeModel = (sequelize, DataTypes) => {
+const initializeServiceTypeModel = (sequelize) => {
   ServiceType.init({
     svId: {
       type: DataTypes.INTEGER,
@@ -111,4 +111,4 @@ const initializeServiceTypeModel = (sequelize, DataTypes) => {
   return ServiceType;
 };
 
-module.exports = initializeServiceTypeModel;
+export default initializeServiceTypeModel;

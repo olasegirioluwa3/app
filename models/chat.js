@@ -1,7 +1,8 @@
-const { Model, DataTypes } = require('sequelize');
+import { Model, DataTypes } from 'sequelize';
 
 class Chat extends Model {
   static associate(models) {
+    // Define associations here if needed
   }
 }
 
@@ -47,4 +48,4 @@ const initializeChatModel = (sequelize) => {
   return Chat;
 };
 
-module.exports = initializeChatModel;
+export default initializeChatModel;
