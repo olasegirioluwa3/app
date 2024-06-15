@@ -1,7 +1,6 @@
 import crypto from 'crypto';
 import { Sequelize } from 'sequelize';
-import db from '../models/index.js';
-const sequelize = db.sequelize;
+import { sequelize } from '../models/index.js';
 import sendEmail from '../utils/email.js';
 import PaymentGateway from '../services/gateways/paymentGateway.js';
 import PaystackGateway from '../services/gateways/paystackGateway.js';
@@ -12,10 +11,9 @@ function generateToken() {
 }
 
 const domain = process.env.APP_WEBSITE_URL || 'localhost:3000';
-export { generateToken };
 const { payment: Payment, user: User, serviceaccess: ServiceAccess, service: ServiceType } = sequelize.models;
 
-export async function create(req, res, data) {
+async function create(req, res, data) {
     try {
         const user = await User.findByPk(req.user.id);
         if (!user) return res.status(400).send({ status: 'failed', error: 'Unknown user' });
@@ -89,7 +87,7 @@ export async function create(req, res, data) {
     }
 }
 
-export async function getAll(req, res, data) {
+async function getAll(req, res, data) {
     try {
         const user = await User.findByPk(data.userId);
         const whatsapp = await Whatsapp.findAll({ userId: user.id });
@@ -109,7 +107,7 @@ export async function getAll(req, res, data) {
     }
 }
 
-export async function getOne(req, res, data) {
+async function getOne(req, res, data) {
     try {
         const payment = await Payment.findOne({ where: { paymentReference: data.paymentReference } });
         if (!payment) {
@@ -122,7 +120,7 @@ export async function getOne(req, res, data) {
     }
 }
 
-export async function verify(req, res, data) {
+async function verify(req, res, data) {
     try {
         const payment = await Payment.findOne({ where: { paymentReference: data.paymentReference } });
         if (!payment) {
@@ -176,3 +174,13 @@ export async function verify(req, res, data) {
         res.status(500).json({ message: 'get one payment failed on C' });
     }
 }
+
+const paymentController = {
+  generateToken,
+  create,
+  getAll,
+  getOne,
+  verify,
+};
+
+export default paymentController;
