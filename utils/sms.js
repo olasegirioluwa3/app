@@ -1,5 +1,5 @@
-require('dotenv').config();
-const axios = require('axios');
+import dotenv from 'dotenv';
+import axios from 'axios';
 
 async function sendSMS(recipient, message, sender = null) {
     const username = process.env.ESTORE_SMS_USERNAME
@@ -27,4 +27,4 @@ async function sendSMS(recipient, message, sender = null) {
     }
 }
 
-module.exports = { sendSMS };
+export default sendSMS;

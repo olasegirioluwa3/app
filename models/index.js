@@ -38,7 +38,7 @@ function exportDatabase() {
   const timestamp = new Date().getTime();
   const exportFileName = path.join(__dirname, `backup_${timestamp}.sql`);
 
-  const exportCommand = `mysql -u${process.env[config.username]} -p${process.env[config.password]} -h${process.env[config.host]} ${process.env[config.database]} < "${exportFileName}"`;
+  const exportCommand = `mysqldump -u${config.username} -p${config.password} -h${config.host} ${config.database} > "${exportFileName}"`;
 
   const childProcess = exec(exportCommand, { cwd: __dirname, shell: true }, (error, stdout, stderr) => {
     if (error) {
@@ -57,7 +57,7 @@ function exportDatabase() {
 // Export the database before syncing
 exportDatabase();
 
-fs.readdirSync(__dirname)
+const modelFiles = fs.readdirSync(__dirname)
   .filter((file) => {
     return (
       file.indexOf(".") !== 0 &&
@@ -65,14 +65,12 @@ fs.readdirSync(__dirname)
       file.slice(-3) === ".js" &&
       file.indexOf(".test.js") === -1
     );
-  })
-  .forEach((file) => {
-    const model = require(path.join(__dirname, file))(
-      sequelize,
-      Sequelize.DataTypes
-    );
-    db[model.name] = model;
   });
+
+for (const file of modelFiles) {
+  const model = (await import(path.join(__dirname, file))).default(sequelize, Sequelize.DataTypes);
+  db[model.name] = model;
+}
 
 // Sync the database with force: true to drop and recreate tables
 sequelize

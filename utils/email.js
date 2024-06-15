@@ -1,18 +1,20 @@
 import nodemailer from 'nodemailer';
-require('dotenv').config();
+import dotenv from 'dotenv';
+
+// Load environment variables from .env file
+dotenv.config();
 
 const sendEmail = async (to, subject, text) => {
     const transporter = nodemailer.createTransport({
-        // configure your email service here
         host: process.env.EMAIL_HOST,
         port: process.env.EMAIL_PORT,
-        secure: process.env.EMAIL_SECURE, // true for 465, false for other ports
+        secure: process.env.EMAIL_SECURE === 'true', // Convert string to boolean
         auth: {
             user: process.env.EMAIL_AUTH_USER,
             pass: process.env.EMAIL_AUTH_PASS
         },
         tls: {
-            rejectUnauthorized: process.env.EMAIL_TLS_REJECTUNAUTHORIZED
+            rejectUnauthorized: process.env.EMAIL_TLS_REJECTUNAUTHORIZED === 'true' // Convert string to boolean
         }
     });
 
