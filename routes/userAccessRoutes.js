@@ -3,7 +3,7 @@ const router = express.Router();
 const authenticateToken = require('../middlewares/auth.user.middleware');
 const { sendSMS } = require('../utils/sms');
 
-module.exports = (app, io, sequelize) => {
+export default function userAccessRoutes (app, io, sequelize) {
   const userController = require('../controllers/userController');
   const userAccessController = require('../controllers/userAccessController');
   const validateUserAccessData = require("../middlewares/validator/userAccessValidator");

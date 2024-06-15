@@ -1,11 +1,12 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const crypto = require("crypto");
-const Sequelize = require("sequelize"); // Import Sequelize
-const { sequelize } = require("../models");
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import crypto from "crypto";
+import { Sequelize } from 'sequelize';
+import db from '../models/index.js';
+const sequelize = db.sequelize;
 const User = sequelize.models.user;
-const validateUserData = "../middlewares/validator/index";
-const { sendEmail } = require("../utils/email");
+import validateUserData from "../middlewares/validator/userValidator.js";
+import sendEmail from "../utils/email.js";
 const domain = process.env.APP_WEBSITE_URL || "localhost:3000";
 
 const generateToken = () => {

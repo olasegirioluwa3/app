@@ -3,7 +3,7 @@ const router = express.Router();
 const authenticateToken = require('../middlewares/auth.user.middleware');
 const { sendSMS } = require('../utils/sms');
 
-module.exports = (app, io, sequelize) => {
+export default function whatsappRoutes (app, io, sequelize) {
   const userController = require('../controllers/userController');
   const whatsappController = require('../controllers/whatsappController');
   const validateWhatsappData = require("../middlewares/validator/whatsappValidator");
