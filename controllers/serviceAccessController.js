@@ -125,8 +125,10 @@ async function activateServiceAccess(req, res, data) {
   }
 }
 
-module.exports = {
+const serviceAccessController = {
   getAll,
   getOne,
   activateServiceAccess
 };
+
+export default serviceAccessController;

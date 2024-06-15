@@ -105,4 +105,4 @@ async function validateServiceAccessData(input = {}) {
   return { data, errors };
 }
 
-module.exports = validateServiceAccessData;
+export default validateServiceAccessData;

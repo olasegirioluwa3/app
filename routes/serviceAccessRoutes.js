@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const authenticateToken = require('../middlewares/auth.user.middleware');
 const phoneNumber = require('phone-number');
+import validateServiceAccessData from "./middlewares/validator/serviceAccessValidator.js";
+import serviceAccessController from './controllers/serviceAccessController.js';
 
-module.exports = (app, io, sequelize) => {
-  const serviceAccessController = require('../controllers/serviceAccessController');
-  const validateServiceAccessData = require("../middlewares/validator/serviceAccessValidator");
-
+export default function serviceAccessRoutes (app, io, sequelize) {
+  
   router.post('/', authenticateToken, async (req, res) => { 
     try {
       let data = {};
@@ -21,7 +21,7 @@ module.exports = (app, io, sequelize) => {
     try {
       const { data, errors } = await validateServiceAccessData(req.body);
       if (errors.length > 0) {
-        return res.status(400).json({ errors });s
+        return res.status(400).json({ errors });
       }
       console.log(data);
       const serviceaccess = await serviceAccessController.activateServiceAccess(req, res, data);
